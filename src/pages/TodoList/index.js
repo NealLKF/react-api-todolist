@@ -39,7 +39,7 @@ const TodoList = () => {
       } else {
         setDataList([]);
       }
-    }    
+    }
     renderList.current = false;
   };
 
@@ -51,11 +51,11 @@ const TodoList = () => {
     { ikey: v4(), note: "約vicky禮拜三泡溫泉", isDone: false },
     { ikey: v4(), note: "約ada禮拜四吃晚餐", isDone: false }
   ]);
-  
+
   const renderList = useRef(false);
   //初始化清單內容
-  useEffect(() => {    
-    if (!renderList.current) {return;}
+  useEffect(() => {
+    if (!renderList.current) { return; }
     filterTodoList();
   }, [tabList, oriDataList]);
   const [dataList, setDataList] = useState(oriDataList);
@@ -84,47 +84,52 @@ const TodoList = () => {
               renderList={renderList}
             />
           </div>
-          <div className="todoList_list">
-            <ul className="todoList_tab">
-              {tabList.map((x, idx) => {
-                return (
-                  <li key={idx} onClick={clickTab}>
-                    <a href="/#" className={x.isActive ? "active" : ""}>
-                      {x.name}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-            <div className="todoList_items">
-              <ul className="todoList_item">
-                {dataList.map((x) => {
+          {oriDataList.length > 0 ? (
+            <div className="todoList_list">
+              <ul className="todoList_tab">
+                {tabList.map((x, idx) => {
                   return (
-                    <TodoItem
-                      key={x.ikey}
-                      x={x}
-                      oriDataList={oriDataList}
-                      setOriDataList={setOriDataList}
-                      renderList = {renderList}
-                    />
+                    <li key={idx} onClick={clickTab}>
+                      <a href="/#" className={x.isActive ? "active" : ""}>
+                        {x.name}
+                      </a>
+                    </li>
                   );
                 })}
               </ul>
-              <div className="todoList_statistics">
-                <p>
-                  {
-                    dataList.filter((x) => {
-                      return x.isDone;
-                    }).length
-                  }
-                  個已完成項目
-                </p>
-                <a href="/#" onClick={removeAllCompleteItem}>
-                  清除已完成項目
-                </a>
+              <div className="todoList_items">
+                <ul className="todoList_item">
+                  {dataList.map((x) => {
+                    return (
+                      <TodoItem
+                        key={x.ikey}
+                        x={x}
+                        oriDataList={oriDataList}
+                        setOriDataList={setOriDataList}
+                        renderList={renderList}
+                      />
+                    );
+                  })}
+                </ul>
+                <div className="todoList_statistics">
+                  <p>
+                    {
+                      dataList.filter((x) => {
+                        return x.isDone;
+                      }).length
+                    }
+                    個已完成項目
+                  </p>
+                  <a href="/#" onClick={removeAllCompleteItem}>
+                    清除已完成項目
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="todoList_items">
+              <p>目前尚無待辦事項</p></div>
+          )}
         </div>
       </div>
     </div>

@@ -32,7 +32,7 @@ const TodoItem = ({ x, oriDataList, setOriDataList, renderList }) => {
                 />
                 <span> {x.note}</span>
             </label>
-            <a href="/#" onClick={() => removeSingleItem(x.ikey)}>
+            <a href="#!" onClick={() => removeSingleItem(x.ikey)}>
                 <i className="fa fa-times"></i>
             </a>
         </li>

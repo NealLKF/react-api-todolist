@@ -28,9 +28,7 @@ const InputTodo = ({ oriDataList, setOriDataList, renderList }) => {
           onChange={ChangeNewTodo}
         />
         <button type="submit">
-          <a href="/#">
             <i className="fa fa-plus"></i>
-          </a>
         </button>
       </form>
     );

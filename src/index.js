@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { HashRouter } from "react-router-dom";
 import './index.css';
-import TodoList from './pages/TodoList';
+import App from './pages/App';
 import '@fortawesome/fontawesome-free/js/all.js';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <TodoList />
+    <HashRouter>
+      <App />
+    </HashRouter>
   </React.StrictMode>
 );
