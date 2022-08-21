@@ -1,20 +1,23 @@
 import './Login.css';
-import { useState, useEffect, useRef } from "react";
+import { useState, useContext } from "react";
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { API_register_users } from "../../global/constants";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import {AppContext} from '../App';
 
 
 const Register = () => {
+    const {mail, setMail, nickname, setNickname, pwd, setPwd} = useContext(AppContext);
+    const [cfpwd, setCfpwd] = useState(pwd);
     const { register, handleSubmit } = useForm();
     let navigate = useNavigate();
-    async function fetchRegisterData(data) {
+    async function fetchRegisterData() {
         const postData = {
             "user": {
-                "email": data.mail,
-                "nickname": data.nickname,
-                "password": data.pwd
+                "email": mail,
+                "nickname": nickname,
+                "password": pwd
             }
         }
         //可成功呼叫，但回傳422，原因待查
@@ -39,11 +42,6 @@ const Register = () => {
             });
         }
     }
-    const [mail, setMail] = useState("onlyonebye@gmail.com");
-    const [nickname, setNickname] = useState("Neal");
-    const [pwd, setPwd] = useState("123456");
-    const [cfpwd, setCfpwd] = useState("123456");
-
     return (
         <div id="signUpPage" className="bg-yellow">
             <div className="conatiner signUpPage vhContainer">

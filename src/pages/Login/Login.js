@@ -1,10 +1,38 @@
 import './Login.css';
-import Register from './Register.js';
-import { useState, useEffect, useRef } from "react";
+import { useContext } from "react";
 import { useForm } from 'react-hook-form';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useNavigate } from 'react-router-dom';
+import {AppContext} from '../App';
+import { API_sign_in } from "../../global/constants";
+import Swal from 'sweetalert2';
 
-const Login = () => {
+const Login = () => {    
+    const { register, handleSubmit } = useForm();
+    const {mail, setMail, pwd, setPwd} = useContext(AppContext);
+    let navigate = useNavigate();
+    async function fetchSignin() {
+        const postData = {
+            "user": {
+                "email": mail,
+                "password": pwd
+            }
+        }
+        const {email, nickname, message} = await fetch(API_sign_in, {
+            method: "POST",
+            headers: { "Content-type": "application/json", },
+            body: JSON.stringify(postData)
+        }).then(res => res.json());
+        if (nickname){
+            navigate("todolist");
+        }else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: message
+            });
+        }
+
+    }
     return (
         <div id="loginPage" className="bg-yellow">
             <div className="conatiner loginPage vhContainer ">
@@ -13,14 +41,14 @@ const Login = () => {
                     <img className="d-m-n" src="https://upload.cc/i1/2022/03/23/tj3Bdk.png" alt="workImg" />
                 </div>
                 <div>
-                    <form className="formControls" action="index.html">
+                    <form className="formControls" onSubmit={handleSubmit(fetchSignin)}>
                         <h2 className="formControls_txt">最實用的線上代辦事項服務</h2>
                         <label className="formControls_label" htmlFor="email">Email</label>
-                        <input className="formControls_input" type="text" id="email" name="email" placeholder="請輸入 email" required />
+                        <input className="formControls_input" type="text" id="email" name="email" placeholder="請輸入 email" required value = {mail} onChange = {(e)=>{setMail(e.target.value)}}/>
                         <span>此欄位不可留空</span>
                         <label className="formControls_label" htmlFor="pwd">密碼</label>
-                        <input className="formControls_input" type="password" name="pwd" id="pwd" placeholder="請輸入密碼" required />
-                        <input className="formControls_btnSubmit" type="button" onclick="javascript:location.href='#todoListPage'" value="登入" />
+                        <input className="formControls_input" type="password" name="pwd" id="pwd" placeholder="請輸入密碼" required value = {pwd} onChange = {(e)=>{setPwd(e.target.value)}}/>
+                        <button className="formControls_btnSubmit" type="submit">登入</button>
                         <NavLink className="formControls_btnLink" to="/register">註冊帳號</NavLink>
                     </form>
                 </div>
