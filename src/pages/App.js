@@ -1,4 +1,4 @@
-import {createContext, useState} from 'react';
+import {createContext, useState, useEffect} from 'react';
 import { Routes, Route } from "react-router-dom";
 import TodoList from './TodoList';
 import Login from './Login/Login.js';
@@ -9,12 +9,21 @@ const AppContext = createContext();
 
 const App = () => {
     
-    const [mail, setMail] = useState("onlyonebye@gmail.com");
+    const [email, setEmail] = useState("onlyonebye@gmail.com");
     const [nickname, setNickname] = useState("Neal");
-    const [pwd, setPwd] = useState("123456");
+    const [password, setPassword] = useState("123456");
+    const [token, setToken] = useState();
     
+    useEffect(()=>{
+        if (token){
+            window.localStorage.setItem("token", token);
+        }else {
+            window.localStorage.removeItem("token");
+        }
+    }, [token]);
+
     return <div>
-        <AppContext.Provider value={{mail, setMail, nickname, setNickname, pwd, setPwd}}>
+        <AppContext.Provider value={{email, setEmail, nickname, setNickname, password, setPassword, token, setToken}}>
         <Routes>
             <Route path="/" element={<Login/>}/>
             <Route path="todolist" element={<TodoList/>}/>

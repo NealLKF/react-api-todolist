@@ -94,7 +94,7 @@ const TodoList = () => {
           <a href="/#">ONLINE TODO LIST</a>
         </h1>
         <ul>
-          <li className="todo_sm"><a href="#!"><span>{`${nickname}的代辦`}</span></a></li>
+          <li className="todo_sm"><Link to="/" style={{pointerEvents: 'none'}}><span>{`${nickname}的代辦`}</span></Link ></li>
           <li><Link to="/" onClick={()=>{signout()}}>登出</Link ></li>
         </ul>
       </nav>

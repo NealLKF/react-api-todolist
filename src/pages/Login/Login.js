@@ -7,30 +7,43 @@ import { API_sign_in } from "../../global/constants";
 import Swal from 'sweetalert2';
 
 const Login = () => {
-    const { handleSubmit } = useForm();
-    const { mail, setMail, pwd, setPwd } = useContext(AppContext);
+    const { handleSubmit, register } = useForm();
+    const { email, setEmail, password, setPassword, token, setToken } = useContext(AppContext);
     let navigate = useNavigate();
-    async function fetchSignin() {
+    async function fetchSignin(data) {
         const postData = {
             "user": {
-                "email": mail,
-                "password": pwd
+                ...data
             }
         }
-        const {nickname, message} = await fetch(API_sign_in, {
+        //登入失敗會回傳401，原因待查
+        await fetch(API_sign_in, {
             method: "POST",
-            headers: { "Content-type": "application/json", },
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: ""
+            },
             body: JSON.stringify(postData)
-        }).then(res => res.json());
-        if (nickname){
-            navigate("todolist");
-        }else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: message
-            });
-        }
+        }).then(res => {
+            if (res.status === 200) { setToken(res.headers.get('authorization')) };
+            return res.json()
+        }).then(data => {
+            if (data.hasOwnProperty('error')) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.error
+                });
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: data.message
+                }).then(() => {
+                    navigate("/todolist");
+                });
+            }
+        });
     }
     return (
         <div id="loginPage" className="bg-yellow">
@@ -43,10 +56,10 @@ const Login = () => {
                     <form className="formControls" onSubmit={handleSubmit(fetchSignin)}>
                         <h2 className="formControls_txt">最實用的線上代辦事項服務</h2>
                         <label className="formControls_label" htmlFor="email">Email</label>
-                        <input className="formControls_input" type="text" id="email" name="email" placeholder="請輸入 email" required value={mail} onChange={(e) => { setMail(e.target.value) }} />
+                        <input className="formControls_input" type="text" id="email" name="email" placeholder="請輸入 email" required {...register("email")} value={email} onChange={(e) => { setEmail(e.target.value) }} />
                         <span>此欄位不可留空</span>
-                        <label className="formControls_label" htmlFor="pwd">密碼</label>
-                        <input className="formControls_input" type="password" name="pwd" id="pwd" placeholder="請輸入密碼" required value={pwd} onChange={(e) => { setPwd(e.target.value) }} />
+                        <label className="formControls_label" htmlFor="password">密碼</label>
+                        <input className="formControls_input" type="password" name="password" id="password" placeholder="請輸入密碼" required {...register("password")} value={password} onChange={(e) => { setPassword(e.target.value) }} />
                         <button className="formControls_btnSubmit" type="submit">登入</button>
                         <NavLink className="formControls_btnLink" to="/register">註冊帳號</NavLink>
                     </form>
