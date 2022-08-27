@@ -12,7 +12,7 @@ const InputTodo = ({ oriDataList, setOriDataList, renderList }) => {
     const AddNewTodo = (data) => {
     renderList.current = true;
       setOriDataList([
-        { ...data, ikey: v4(), isDone: false },
+        { ...data, id: v4(), completed_at: null },
         ...oriDataList
       ]);
       setNewTodo("");
@@ -20,7 +20,7 @@ const InputTodo = ({ oriDataList, setOriDataList, renderList }) => {
     return (
       <form onSubmit={handleSubmit(AddNewTodo)}>
         <input
-          {...register("note")}
+          {...register("content")}
           required
           type="text"
           placeholder="請輸入待辦事項"
