@@ -3,21 +3,13 @@ import { useState, useEffect, useRef, useContext } from "react";
 import InputTodo from './Components/InputTodo'
 import TodoItem from './Components/TodoItem'
 import { AppContext } from '../App';
-import { API_sign_out } from "../../global/constants";
-import { NavLink, useNavigate, Link } from 'react-router-dom';
-import { refreshTodoData } from "../../global/fetchAPI";
+import { Link } from 'react-router-dom';
+import { refreshTodoData, User_sign_out, deletePatchTodoData } from "../../global/fetchAPI";
 
-const TodoList = () => {
-
+const TodoList = () => {  
+  const renderList = useRef(false);
+  const { nickname, setToken } = useContext(AppContext);  
   const [oriDataList, setOriDataList] = useState([]);
-
-
-  useEffect(() => {
-    refreshTodoData(setOriDataList, setDataList);
-  }, []);
-
-
-  const { nickname, token } = useContext(AppContext);
   const [tabList, setTabList] = useState([
     { name: "全部", isActive: true, isDoneCondition: null },
     { name: "待完成", isActive: false, isDoneCondition: false },
@@ -35,6 +27,7 @@ const TodoList = () => {
       })
     );
   };
+  const [dataList, setDataList] = useState([]);
   const filterTodoList = () => {
     const isDoneFilter = tabList.filter((x) => {
       return x.isActive;
@@ -54,37 +47,30 @@ const TodoList = () => {
     renderList.current = false;
   };
 
-
-  const renderList = useRef(false);
+  useEffect(() => {
+    (async () => {
+      //等待API取得Todo清單後，再設定renderList.current，方可順利初始化OriDataList)，否則會初始失敗
+      await refreshTodoData(setOriDataList);
+      renderList.current = true;
+    })()
+  }, []);
   //初始化清單內容
   useEffect(() => {
     if (!renderList.current) { return; }
     filterTodoList();
   }, [tabList, oriDataList]);
-  const [dataList, setDataList] = useState([]);
-  const removeAllCompleteItem = () => {
+
+  const removeAllCompleteItem = (e) => {
+    e.preventDefault();
     renderList.current = true;
-    setOriDataList(
-      oriDataList.filter((x) => {
-        return x.completed_at != null;
-      })
-    );
+    deletePatchTodoData(oriDataList.filter((x) => {
+      return x.completed_at != null;
+    }), setOriDataList);
+
   };
-  const signout = () => {
-    // console.log('sign out');      
-    async function fetchSignout() {
-      const postData = {
-        "user": {
-          "email": "mail",
-          "password": "pwd"
-        }
-      }
-      // const { nickname, message } = await fetch(API_sign_out, {
-      //   method: "POST",
-      //   headers: { "Content-type": "application/json", },
-      //   body: JSON.stringify(postData)
-      // }).then(res => res.json());
-    }
+  const signout = (e) => {
+    e.preventDefault();
+    User_sign_out(setToken);
   }
 
   return (
@@ -95,7 +81,7 @@ const TodoList = () => {
         </h1>
         <ul>
           <li className="todo_sm"><Link to="/" style={{ pointerEvents: 'none' }}><span>{`${nickname}的代辦`}</span></Link ></li>
-          <li><Link to="/" onClick={() => { signout() }}>登出</Link ></li>
+          <li><Link to="/" onClick={signout}>登出</Link ></li>
         </ul>
       </nav>
       <div className="conatiner todoListPage vhContainer">
@@ -143,9 +129,9 @@ const TodoList = () => {
                     }
                     個待完成項目
                   </p>
-                  <a href="/#" onClick={removeAllCompleteItem}>
+                  <Link to="/" onClick={removeAllCompleteItem}>
                     清除已完成項目
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

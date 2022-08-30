@@ -2,19 +2,33 @@ import { useContext } from "react";
 import { API_patch_todos_toggle } from "../../../global/constants";
 import Swal from 'sweetalert2';
 import { AppContext } from '../../App';
-import { toggleTodoData } from "../../../global/fetchAPI";
+import { toggleTodoData, deleteTodoData } from "../../../global/fetchAPI";
+import { Link } from 'react-router-dom';
 
 const TodoItem = ({ singleItem, oriDataList, setOriDataList, renderList }) => {
     const { token } = useContext(AppContext);
-    const removeSingleItem = (id) => {
-        renderList.current = true;
-        setOriDataList(
-            oriDataList.filter((x) => {
-                return x.id !== id;
-            })
-        );
+    const removeSingleItem = (e, id) => {
+        e.preventDefault();
+
+        Swal.fire({
+            icon: 'question',
+            title: '刪除確認?',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                renderList.current = true;
+                deleteTodoData(id, setOriDataList);
+            }
+        })
+
+        // setOriDataList(
+        //     oriDataList.filter((x) => {
+        //         return x.id !== id;
+        //     })
+        // );
     };
-    
+
     //為了前端操作流暢，將oriDataList與toggleTodoData以非同步進行，不等待fetch api結果。
     const changeItemStatus = (e) => {
         toggleTodoData(e.target.value);
@@ -22,7 +36,7 @@ const TodoItem = ({ singleItem, oriDataList, setOriDataList, renderList }) => {
         const updatedDataList = oriDataList.map((x) => {
             return {
                 ...x,
-                completed_at: x.id === e.target.value ? (e.target.checked? new Date().toString(): null ) : x.completed_at
+                completed_at: x.id === e.target.value ? (e.target.checked ? new Date().toString() : null) : x.completed_at
             };
         });
         setOriDataList(updatedDataList);
@@ -40,9 +54,11 @@ const TodoItem = ({ singleItem, oriDataList, setOriDataList, renderList }) => {
                 />
                 <span> {singleItem.content}</span>
             </label>
-            <a href="#!" onClick={() => removeSingleItem(singleItem.id)}>
+
+            <Link to="/" onClick={(e) => removeSingleItem(e, singleItem.id)} >
                 <i className="fa fa-times"></i>
-            </a>
+            </Link>
+
         </li>
     );
 };
