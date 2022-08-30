@@ -32,3 +32,4 @@ Demo： [React-TodoList](https://neallkf.github.io/react-api-todolist/)
 ## **資源**
 * [設計稿](https://www.figma.com/file/pFivfS3rDX3N3u3dN9aIlx/TodoList?node-id=0%3A1)
 * [API 說明文件](https://todoo.5xcamp.us/api-docs/index.html)
+* [Codepen CSS 排版](https://codepen.io/liao/pen/mdpmXKg?editors=1010)
