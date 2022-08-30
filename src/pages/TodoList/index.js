@@ -6,9 +6,9 @@ import { AppContext } from '../App';
 import { Link } from 'react-router-dom';
 import { refreshTodoData, User_sign_out, deletePatchTodoData } from "../../global/fetchAPI";
 
-const TodoList = () => {  
+const TodoList = () => {
   const renderList = useRef(false);
-  const { nickname, setToken } = useContext(AppContext);  
+  const { nickname, setToken } = useContext(AppContext);
   const [oriDataList, setOriDataList] = useState([]);
   const [tabList, setTabList] = useState([
     { name: "全部", isActive: true, isDoneCondition: null },
@@ -77,7 +77,7 @@ const TodoList = () => {
     <div id="todoListPage" className="bg-half">
       <nav>
         <h1>
-          <a href="/#">ONLINE TODO LIST</a>
+          <Link to="/" style={{ pointerEvents: 'none' }}><img className="logoImg" src="https://upload.cc/i1/2022/03/23/rhefZ3.png" alt="" />ONLINE TODO LIST</Link >
         </h1>
         <ul>
           <li className="todo_sm"><Link to="/" style={{ pointerEvents: 'none' }}><span>{`${nickname}的代辦`}</span></Link ></li>

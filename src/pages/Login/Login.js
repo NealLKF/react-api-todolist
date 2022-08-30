@@ -1,14 +1,14 @@
 import './Login.css';
 import { useContext } from "react";
 import { useForm } from 'react-hook-form';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import { API_sign_in } from "../../global/constants";
 import Swal from 'sweetalert2';
 
 const Login = () => {
     const { handleSubmit, register } = useForm();
-    const { email, setEmail, password, setPassword, token, setToken } = useContext(AppContext);
+    const { email, setEmail, password, setPassword, setNickname, setToken } = useContext(AppContext);
     let navigate = useNavigate();
     async function fetchSignin(data) {
         const postData = {
@@ -16,7 +16,6 @@ const Login = () => {
                 ...data
             }
         }
-        //登入失敗會回傳401，原因待查
         await fetch(API_sign_in, {
             method: "POST",
             headers: {
@@ -36,6 +35,7 @@ const Login = () => {
                     text: data.error
                 });
             } else {
+                setNickname(data.nickname);
                 Swal.fire({
                     icon: 'success',
                     title: data.message
@@ -49,7 +49,7 @@ const Login = () => {
         <div id="loginPage" className="bg-yellow">
             <div className="conatiner loginPage vhContainer ">
                 <div className="side">
-                    <a href="#!"><img className="logoImg" src="https://upload.cc/i1/2022/03/23/rhefZ3.png" alt="" /></a>
+                    <Link to="/" style={{ pointerEvents: 'none' }}><img className="logoImg" src="https://upload.cc/i1/2022/03/23/rhefZ3.png" alt="" /></Link >
                     <img className="d-m-n" src="https://upload.cc/i1/2022/03/23/tj3Bdk.png" alt="workImg" />
                 </div>
                 <div>

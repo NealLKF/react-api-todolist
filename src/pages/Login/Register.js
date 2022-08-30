@@ -1,7 +1,7 @@
 import './Login.css';
 import { useState, useContext, useRef } from "react";
 import { useForm } from 'react-hook-form';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, Link} from 'react-router-dom';
 import { API_register_users } from "../../global/constants";
 import Swal from 'sweetalert2';
 import { AppContext } from '../App';
@@ -65,7 +65,7 @@ const Register = () => {
         <div id="signUpPage" className="bg-yellow">
             <div className="conatiner signUpPage vhContainer">
                 <div className="side">
-                    <a href="#!"><img className="logoImg" src="https://upload.cc/i1/2022/03/23/rhefZ3.png" alt="" /></a>
+                <Link to="/" style={{ pointerEvents: 'none' }}><img className="logoImg" src="https://upload.cc/i1/2022/03/23/rhefZ3.png" alt="" /></Link >
                     <img className="d-m-n" src="https://upload.cc/i1/2022/03/23/tj3Bdk.png" alt="workImg" />
                 </div>
                 <div>
