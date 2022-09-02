@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { useForm } from 'react-hook-form';
-import { v4 } from "uuid";
 import { addTodoData } from "../../../global/fetchAPI";
 
 const InputTodo = ({ oriDataList, setOriDataList, renderList }) => {

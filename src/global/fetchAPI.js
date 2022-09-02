@@ -1,5 +1,8 @@
 import { API_get_todos, API_patch_todos_toggle, API_post_todos, API_delete_todos, API_sign_out } from "./constants";
 import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 //呼叫兩次，需再確認原因
 export const refreshTodoData = async (setOriDataList) => {
@@ -56,7 +59,24 @@ export const addTodoData = async (newitem, setOriDataList) => {
     body: JSON.stringify(postData)
   }).then(res => {
     if (res.ok) {
-      Swal.fire({ icon: 'info', title: '新增成功', });
+      MySwal.fire({
+        icon: 'success',
+        title: 'Add todo successfully.',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      }).then(() => {
+        //Do something here.
+        // return MySwal.fire(<p>Shorthand works too</p>)
+      })
+
+      //Swal.fire({ icon: 'info', title: '新增成功', });
       refreshTodoData(setOriDataList);
       return res.json();
     }
@@ -74,7 +94,19 @@ export const deleteTodoData = async (itemid, setOriDataList) => {
     }
   }).then(res => {
     if (res.ok) {
-      Swal.fire({ icon: 'info', title: '刪除成功', });
+      MySwal.fire({
+        icon: 'success',
+        title: 'Delete todo successfully.',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
       refreshTodoData(setOriDataList);
       return res.json();
     }
@@ -121,8 +153,20 @@ export const User_sign_out = async (setToken) => {
     Swal.fire({ icon: 'error', title: err.message, });
   });
 
-  Swal.fire({ icon: 'info', title: result.message, });
-  setToken(null);  
+  MySwal.fire({
+    icon: 'success',
+    title: result.message,
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer)
+      toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+  })
+  setToken(null);
   window.localStorage.removeItem("token");
 
 }

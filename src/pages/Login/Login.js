@@ -5,6 +5,8 @@ import { NavLink, useNavigate, Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import { API_sign_in } from "../../global/constants";
 import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+const MySwal = withReactContent(Swal);
 
 const Login = () => {
     const { handleSubmit, register } = useForm();
@@ -36,9 +38,18 @@ const Login = () => {
                 });
             } else {
                 setNickname(data.nickname);
-                Swal.fire({
+                MySwal.fire({
                     icon: 'success',
-                    title: data.message
+                    title: data.message,
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
                 }).then(() => {
                     navigate("/todolist");
                 });
