@@ -4,6 +4,7 @@ import TodoList from './TodoList';
 import Login from './Login/Login.js';
 import Register from './Login/Register.js';
 import ErrorPage from './Error/ErrorPage.js';
+import MyToaster from '../global/MyToast'
 
 const AppContext = createContext();
 
@@ -22,7 +23,8 @@ const App = () => {
         } else {
             window.localStorage.removeItem("token");
             navigate("/");
-        }    }, [token]);
+        }
+    }, [token]);
 
     return <div>
         <AppContext.Provider value={{ email, setEmail, nickname, setNickname, password, setPassword, token, setToken }}>
@@ -32,7 +34,9 @@ const App = () => {
                 <Route path="register" element={<Register />} />
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
+            <MyToaster/>
         </AppContext.Provider>
+       
     </div>
 }
 

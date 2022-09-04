@@ -5,8 +5,8 @@ import { NavLink, useNavigate, Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import { API_sign_in } from "../../global/constants";
 import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-const MySwal = withReactContent(Swal);
+import MySwal from '../../global/MySwal';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
     const { handleSubmit, register } = useForm();
@@ -31,13 +31,14 @@ const Login = () => {
             return res.json()
         }).then(data => {
             if (data.hasOwnProperty('error')) {
-                Swal.fire({
+                MySwal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: data.error
                 });
             } else {
                 setNickname(data.nickname);
+                toast.success(data.message);
                 MySwal.fire({
                     icon: 'success',
                     title: data.message,
