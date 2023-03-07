@@ -5,6 +5,8 @@ import { NavLink, useNavigate, Link} from 'react-router-dom';
 import { API_register_users } from "../../global/constants";
 import Swal from 'sweetalert2';
 import { AppContext } from '../App';
+import logo from '../../img/logo.png';
+import todolist from '../../img/todolist.png';
 
 
 const Register = () => {
@@ -65,8 +67,8 @@ const Register = () => {
         <div id="signUpPage" className="bg-yellow">
             <div className="conatiner signUpPage vhContainer">
                 <div className="side">
-                <Link to="/" style={{ pointerEvents: 'none' }}><img className="logoImg" src="https://upload.cc/i1/2022/03/23/rhefZ3.png" alt="" /></Link >
-                    <img className="d-m-n" src="https://upload.cc/i1/2022/03/23/tj3Bdk.png" alt="workImg" />
+                <Link to="/" style={{ pointerEvents: 'none' }}><img className="logoImg" src={logo}  alt="" /></Link >
+                    <img className="d-m-n" src={todolist} alt="workImg" />
                 </div>
                 <div>
                     <form className="formControls" onSubmit={handleSubmit(fetchRegisterData, onError)}>
