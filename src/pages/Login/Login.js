@@ -7,10 +7,15 @@ import { API_sign_in } from "../../global/constants";
 import Swal from 'sweetalert2';
 import MySwal from '../../global/MySwal';
 import toast, { Toaster } from 'react-hot-toast';
+<<<<<<< HEAD
 import { SpinnerCircular } from 'spinners-react';
 import LoginImg from '../../../src/todolist.png';
 import Logo from '../../../src/todolistLogo.png';
 
+=======
+import logo from '../../img/logo.png';
+import todolist from '../../img/todolist.png';
+>>>>>>> db3730a68ac38dc0c82f8f248dc0df3e13a8194c
 
 const Login = () => {
 
@@ -67,6 +72,7 @@ const Login = () => {
         });
     }
     return (
+<<<<<<< HEAD
         <>
             <div id="loginPage" className="bg-yellow">
                 <div className="conatiner loginPage vhContainer ">
@@ -86,6 +92,25 @@ const Login = () => {
                             <NavLink className="formControls_btnLink" to="/register">註冊帳號</NavLink>
                         </form>
                     </div>
+=======
+        <div id="loginPage" className="bg-yellow">
+            <div className="conatiner loginPage vhContainer ">
+                <div className="side">
+                    <Link to="/" style={{ pointerEvents: 'none' }}><img className="logoImg" src={logo} alt="" /></Link >
+                    <img className="d-m-n" src={todolist} alt="workImg" />
+                </div>
+                <div>
+                    <form className="formControls" onSubmit={handleSubmit(fetchSignin)}>
+                        <h2 className="formControls_txt">最實用的線上代辦事項服務</h2>
+                        <label className="formControls_label" htmlFor="email">Email</label>
+                        <input className="formControls_input" type="text" id="email" name="email" placeholder="請輸入 email" required {...register("email")} value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                        <span>此欄位不可留空</span>
+                        <label className="formControls_label" htmlFor="password">密碼</label>
+                        <input className="formControls_input" type="password" name="password" id="password" placeholder="請輸入密碼" required {...register("password")} value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                        <button className="formControls_btnSubmit" type="submit">登入</button>
+                        <NavLink className="formControls_btnLink" to="/register">註冊帳號</NavLink>
+                    </form>
+>>>>>>> db3730a68ac38dc0c82f8f248dc0df3e13a8194c
                 </div>
             </div>
 

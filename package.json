@@ -2,7 +2,6 @@
   "name": "react-api-todolist",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://neallkf.github.io/react-api-todolist",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1.2",
     "@testing-library/jest-dom": "^5.16.5",
@@ -16,8 +15,12 @@
     "react-hot-toast": "^2.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+<<<<<<< HEAD
     "react-spinners": "^0.13.4",
     "spinners-react": "^1.0.7",
+=======
+    "react-toastify": "^9.1.1",
+>>>>>>> db3730a68ac38dc0c82f8f248dc0df3e13a8194c
     "sweetalert2": "^11.4.28",
     "sweetalert2-react-content": "^5.0.3",
     "uuid": "^8.3.2",
