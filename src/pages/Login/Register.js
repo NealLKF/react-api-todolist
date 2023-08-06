@@ -5,12 +5,14 @@ import { NavLink, useNavigate, Link} from 'react-router-dom';
 import { API_register_users } from "../../global/constants";
 import Swal from 'sweetalert2';
 import { AppContext } from '../App';
+import LoginImg from '../../../src/todolist.png';
+import Logo from '../../../src/todolistLogo.png';
 
 
 const Register = () => {
     const { email, setEmail, nickname, setNickname, password, setPassword, setToken } = useContext(AppContext);
     const [cfpwd, setCfpwd] = useState("");
-    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, watch, formState: { errors } } = useForm({mode: "onChange"});
 
     //用於驗證密碼重複輸入是否正確
     const validatePassword = () => {
@@ -18,6 +20,7 @@ const Register = () => {
     }
     const onError = (errors, e) => {
         //
+        console.log('errors',errors);
         let err = errors.email?.message || errors.password?.message;
         if (err) {
             Swal.fire({
@@ -65,8 +68,8 @@ const Register = () => {
         <div id="signUpPage" className="bg-yellow">
             <div className="conatiner signUpPage vhContainer">
                 <div className="side">
-                <Link to="/" style={{ pointerEvents: 'none' }}><img className="logoImg" src="https://upload.cc/i1/2022/03/23/rhefZ3.png" alt="" /></Link >
-                    <img className="d-m-n" src="https://upload.cc/i1/2022/03/23/tj3Bdk.png" alt="workImg" />
+                <Link to="/" style={{ pointerEvents: 'none' }}><img className="logoImg" src={Logo} alt="" /></Link >
+                    <img className="d-m-n" src={LoginImg} alt="workImg" />
                 </div>
                 <div>
                     <form className="formControls" onSubmit={handleSubmit(fetchRegisterData, onError)}>

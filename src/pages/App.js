@@ -1,20 +1,23 @@
-import { createContext, useState, useEffect, useRef } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import TodoList from './TodoList';
 import Login from './Login/Login.js';
 import Register from './Login/Register.js';
 import ErrorPage from './Error/ErrorPage.js';
-import MyToaster from '../global/MyToast'
+import MyToaster from '../global/MyToast';
+import MyReactSpinners from '../global/MyReactSpinners';
+
 
 const AppContext = createContext();
 
 const App = () => {
 
-    const [email, setEmail] = useState("");
-    const [nickname, setNickname] = useState("");
-    const [password, setPassword] = useState("");
-    const [token, setToken] = useState();
+    let [email, setEmail] = useState("");
+    let [nickname, setNickname] = useState("");
+    let [password, setPassword] = useState("");
+    let [token, setToken] = useState();
     let navigate = useNavigate();
+
     useEffect(() => {
         if (token) {
             window.localStorage.setItem("token", token);
@@ -25,18 +28,21 @@ const App = () => {
             navigate("/");
         }
     }, [token]);
-
-    return <div>
+    return <div>        
+        {/* Context 是一種利用向下廣播來傳遞資料的方式，此方法可以解決 props 必須要一層層向下傳遞的缺點。
+        建議使用於全域性資料（e.g. 使用者資訊、時區設定、語系、UI 主題 ...etc） */}
         <AppContext.Provider value={{ email, setEmail, nickname, setNickname, password, setPassword, token, setToken }}>
+
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="todolist" element={<TodoList />} />
                 <Route path="register" element={<Register />} />
                 <Route path="*" element={<ErrorPage />} />
             </Routes>
-            <MyToaster/>
+            <MyToaster />
+
         </AppContext.Provider>
-       
+
     </div>
 }
 

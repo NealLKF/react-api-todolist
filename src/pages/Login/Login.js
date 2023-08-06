@@ -1,5 +1,5 @@
 import './Login.css';
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate, Link } from 'react-router-dom';
 import { AppContext } from '../App';
@@ -7,10 +7,18 @@ import { API_sign_in } from "../../global/constants";
 import Swal from 'sweetalert2';
 import MySwal from '../../global/MySwal';
 import toast, { Toaster } from 'react-hot-toast';
+import { SpinnerCircular } from 'spinners-react';
+import LoginImg from '../../../src/todolist.png';
+import Logo from '../../../src/todolistLogo.png';
+
 
 const Login = () => {
+
     const { handleSubmit, register } = useForm();
+    
+    // useContext: 取出上一層建立的Context內容
     const { email, setEmail, password, setPassword, setNickname, setToken } = useContext(AppContext);
+    // useNavigate: 控制history stack、傳遞參數、頁面重新導向
     let navigate = useNavigate();
     async function fetchSignin(data) {
         const postData = {
@@ -52,32 +60,36 @@ const Login = () => {
                         toast.addEventListener('mouseleave', Swal.resumeTimer)
                     }
                 }).then(() => {
-                    navigate("/todolist");
+                    setTimeout(() => { navigate("/todolist"); }, 3000);
+
                 });
             }
         });
     }
     return (
-        <div id="loginPage" className="bg-yellow">
-            <div className="conatiner loginPage vhContainer ">
-                <div className="side">
-                    <Link to="/" style={{ pointerEvents: 'none' }}><img className="logoImg" src="https://upload.cc/i1/2022/03/23/rhefZ3.png" alt="" /></Link >
-                    <img className="d-m-n" src="https://upload.cc/i1/2022/03/23/tj3Bdk.png" alt="workImg" />
-                </div>
-                <div>
-                    <form className="formControls" onSubmit={handleSubmit(fetchSignin)}>
-                        <h2 className="formControls_txt">最實用的線上代辦事項服務</h2>
-                        <label className="formControls_label" htmlFor="email">Email</label>
-                        <input className="formControls_input" type="text" id="email" name="email" placeholder="請輸入 email" required {...register("email")} value={email} onChange={(e) => { setEmail(e.target.value) }} />
-                        <span>此欄位不可留空</span>
-                        <label className="formControls_label" htmlFor="password">密碼</label>
-                        <input className="formControls_input" type="password" name="password" id="password" placeholder="請輸入密碼" required {...register("password")} value={password} onChange={(e) => { setPassword(e.target.value) }} />
-                        <button className="formControls_btnSubmit" type="submit">登入</button>
-                        <NavLink className="formControls_btnLink" to="/register">註冊帳號</NavLink>
-                    </form>
+        <>
+            <div id="loginPage" className="bg-yellow">
+                <div className="conatiner loginPage vhContainer ">
+                    <div className="side">
+                        <Link to="/" style={{ pointerEvents: 'none' }}><img className="logoImg" src={Logo} alt="" /></Link >
+                        <img className="d-m-n" src={LoginImg} alt="workImg" />
+                    </div>
+                    <div>
+                        <form className="formControls" onSubmit={handleSubmit(fetchSignin)}>
+                            <h2 className="formControls_txt">最實用的線上代辦事項服務</h2>
+                            <label className="formControls_label" htmlFor="email">Email</label>
+                            <input className="formControls_input" type="text" id="email" name="email" placeholder="請輸入 email" required {...register("email")} value={email} onChange={(e) => { setEmail(e.target.value) }} />
+                            <span>此欄位不可留空</span>
+                            <label className="formControls_label" htmlFor="password">密碼</label>
+                            <input className="formControls_input" type="password" name="password" id="password" placeholder="請輸入密碼" required {...register("password")} value={password} onChange={(e) => { setPassword(e.target.value) }} />
+                            <button className="formControls_btnSubmit" type="submit">登入</button>
+                            <NavLink className="formControls_btnLink" to="/register">註冊帳號</NavLink>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+
+        </>
     )
 }
 
